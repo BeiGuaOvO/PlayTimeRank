@@ -1,0 +1,11 @@
+name: PlayTimeRank
+version: '1.0'
+main: github.BeiGuaOvO.PlayTimeRank
+api-version: '1.20'
+commands:
+  playtime:
+    description: 获取玩家游玩时长
+    aliases: pt
+  playrank:
+    description: 在线玩家时长榜
+    aliases: pr
