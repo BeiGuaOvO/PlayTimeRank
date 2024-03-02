@@ -4,6 +4,6 @@
 
 用法：
 
-/pt <playerName> 或 /playtime <playerName> 查询玩家在线时长
+`/pt <playerName>` 或 `/playtime <playerName>` 查询玩家在线时长
 
-/pr 或 /playrank 在线玩家时长榜
+`/pr` 或 `/playrank` 在线玩家时长榜
