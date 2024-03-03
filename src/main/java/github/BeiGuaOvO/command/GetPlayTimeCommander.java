@@ -11,6 +11,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
+import java.util.Map;
 
 
 public class GetPlayTimeCommander implements CommandExecutor {
@@ -20,11 +21,13 @@ public class GetPlayTimeCommander implements CommandExecutor {
             String name = strings[0];
             if (DataManageUtil.getTime(name) != 0){
                 long time = DataManageUtil.getTime(name);
-                if (PlayTimeRank.data.containsKey((Player) commandSender)){
-                    LocalDateTime now = LocalDateTime.now();
-                    LocalDateTime join = PlayTimeRank.data.get((Player) commandSender);
-                    Duration duration = Duration.between(join,now);
-                    time += duration.toMinutes();
+                for (Map.Entry<Player, LocalDateTime> entry : PlayTimeRank.data.entrySet()){
+                    if (entry.getKey().getName().equals(name)){
+                        LocalDateTime now = LocalDateTime.now();
+                        Duration duration = Duration.between(entry.getValue(),now);
+                        time+=duration.toMinutes();
+                        break;
+                    }
                 }
                 commandSender.sendMessage("[PlayTimeRank] 玩家" + name + "的游玩时长：" + ChatColor.GOLD + (int)time/60 + "h" + time%60 + "m");
             }else{

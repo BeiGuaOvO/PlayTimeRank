@@ -6,3 +6,6 @@ commands:
   playtime:
     description: 获取玩家游玩时长
     aliases: pt
+  playrank:
+    description: 在线玩家时长榜
+    aliases: pr

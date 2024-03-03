@@ -3,6 +3,7 @@ package github.BeiGuaOvO.expansion;
 import github.BeiGuaOvO.Util.DataManageUtil;
 import me.clip.placeholderapi.expansion.PlaceholderExpansion;
 import org.bukkit.OfflinePlayer;
+import org.bukkit.entity.Player;
 
 public class TimeExpansion extends PlaceholderExpansion {
     @Override
@@ -24,7 +25,7 @@ public class TimeExpansion extends PlaceholderExpansion {
     public String onRequest(OfflinePlayer player, String params) {
 
         if(params.equalsIgnoreCase("playtime")) {
-            long minutes = DataManageUtil.getTime(player.getName());
+            long minutes = DataManageUtil.getPlayerHavePlayed((Player) player);
             return minutes + " minutes";
         }
 
