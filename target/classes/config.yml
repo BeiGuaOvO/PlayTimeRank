@@ -2,6 +2,8 @@
 auto-save: true
 #每隔多长时间保存一次（单位：分钟）
 auto-save-period: 5
+#自动保存时是否有信息提示
+auto-save-debug-info: false
 #游玩时长称号是否启用
 level-enable: true
 #游玩时长每增加多少小时提升一个段位

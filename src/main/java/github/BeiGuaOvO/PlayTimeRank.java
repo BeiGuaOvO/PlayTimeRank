@@ -66,7 +66,7 @@ public final class PlayTimeRank extends JavaPlugin {
                         DataManageUtil.setTime(k.getName(),minutes+played);
                         data.put(k,now);
                     });
-                    System.out.println("[PlayTimeRank] 自动保存了" + data.size() + "名玩家数据.");
+                    if (getConfig().getBoolean("auto-save-debug-info")) System.out.println("[PlayTimeRank] 自动保存了" + data.size() + "名玩家数据.");
                 }
             }.runTaskTimerAsynchronously(this,0,getConfig().getLong("auto-save-period")*60*20);
         }

@@ -27,6 +27,7 @@ public class TimeRankCommander implements CommandExecutor {
         for (Map.Entry<Player,Long> entry : res.entrySet()){
             sender.sendMessage(i+". " + ChatColor.GOLD + entry.getKey().getName() + " : " + ChatColor.AQUA +
                     entry.getValue()/60 + "h" + entry.getValue()%60 + "m");
+			i++;
         }
         return false;
     }
