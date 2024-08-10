@@ -5,6 +5,7 @@ github\BeiGuaOvO\event\PlayerJoinEvent.class
 github\BeiGuaOvO\event\PlayerLeftEvent.class
 github\BeiGuaOvO\command\GetPlayTimeCommander.class
 github\BeiGuaOvO\event\PlayerChatEvent.class
+github\BeiGuaOvO\Util\ReadLevelConfigUtil.class
 github\BeiGuaOvO\expansion\TimeExpansion.class
 github\BeiGuaOvO\command\TimeRankCommander.class
 github\BeiGuaOvO\command\TimeRankCommander$1.class

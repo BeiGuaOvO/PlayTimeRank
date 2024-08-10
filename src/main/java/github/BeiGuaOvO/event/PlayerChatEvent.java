@@ -8,17 +8,23 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 
+import java.util.Map;
+import java.util.concurrent.atomic.AtomicReference;
+
 public class PlayerChatEvent implements Listener {
     @EventHandler
     public void onChat(AsyncPlayerChatEvent event){
         Player player = event.getPlayer();
-        long levelUp = PlayTimeRank.instance.getConfig().getLong("level-up")*60;
-        int level = (int) (DataManageUtil.getPlayerHavePlayed(player) / levelUp);
-        String prefix = null;
-        if (level>=PlayTimeRank.levels.size())prefix=PlayTimeRank.levels.get(PlayTimeRank.levels.size()-1);
-        else prefix=PlayTimeRank.levels.get(level);
+        int time = (int) DataManageUtil.getPlayerHavePlayed(player);
+        Map<String,String>map = PlayTimeRank.levels;
+        String prefix=null;
+        for (Map.Entry<String,String> entry:map.entrySet()){
+            prefix = entry.getValue();
+            if (Integer.parseInt(entry.getKey())*60>=time) {
+                break;
+            }
+        }
         String message = event.getMessage();
-        event.setMessage(ChatColor.GRAY + "[" + ChatColor.LIGHT_PURPLE + prefix + ChatColor.GRAY + "]["
-        + ChatColor.GOLD + player.getName() + ChatColor.GRAY + "]" + ChatColor.WHITE + " " + message);
+        event.setMessage(ChatColor.GRAY + "[" + ChatColor.LIGHT_PURPLE + prefix + ChatColor.GRAY + "]" + ChatColor.WHITE + " " + message);
     }
 }

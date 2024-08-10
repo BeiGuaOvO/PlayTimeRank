@@ -6,25 +6,5 @@ auto-save-period: 5
 auto-save-debug-info: false
 #游玩时长称号是否启用
 level-enable: true
-#游玩时长每增加多少小时提升一个段位
-level-up: 10
-#称号名称集
-level-names:
-  - 白银一级
-  - 白银二级
-  - 白银三级
-  - 白银四级
-  - 白银精英
-  - 大师级白银
-  - 黄金新星一级
-  - 黄金新星二级
-  - 黄金新星三级
-  - 大师级黄金新星
-  - 大师级守卫一级
-  - 大师级守卫二级
-  - 大师级守卫精英
-  - 杰出大师级守卫
-  - 传奇之鹰
-  - 大师级传奇之鹰
-  - 无上之首席大师
-  - 全球精英
+#称号配置文件名称
+level-config: default.properties

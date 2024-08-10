@@ -1,6 +1,7 @@
 package github.BeiGuaOvO;
 
 import github.BeiGuaOvO.Util.DataManageUtil;
+import github.BeiGuaOvO.Util.ReadLevelConfigUtil;
 import github.BeiGuaOvO.command.GetPlayTimeCommander;
 import github.BeiGuaOvO.command.TimeRankCommander;
 import github.BeiGuaOvO.event.PlayerChatEvent;
@@ -16,22 +17,24 @@ import java.time.LocalDateTime;
 import java.util.*;
 
 public final class PlayTimeRank extends JavaPlugin {
+    public static String mainPath = System.getProperty("user.dir");
     public static PlayTimeRank instance;
     public static Map<Player, LocalDateTime> data;
-    public static List<String> levels;
+    public static Map<String, String> levels;
     @Override
     public void onEnable() {
         // Plugin startup logic
         System.out.println("[PlayTimeRank]已加载！作者：北瓜sakura");
+        saveResource("data.yml",false);
+        saveResource("prefix/default.properties",false);
         instance=this;
         data=new HashMap<>();
-        levels=new ArrayList<>();
+        levels= new HashMap<>();
         checkOnlinePlayers();
         saveDefaultConfig();
         autoSave();
         initLevels();
         //new TimeExpansion().register();
-        saveResource("data.yml",false);
         getServer().getPluginManager().registerEvents(new PlayerJoinEvent(),this);
         getServer().getPluginManager().registerEvents(new PlayerLeftEvent(),this);
         if (getConfig().getBoolean("level-enable"))getServer().getPluginManager().registerEvents(new PlayerChatEvent(),this);
@@ -83,7 +86,7 @@ public final class PlayTimeRank extends JavaPlugin {
 
     private void initLevels(){
         if (getConfig().getBoolean("level-enable")){
-            levels = getConfig().getStringList("level-names");
+            levels=ReadLevelConfigUtil.getLevels();
         }
     }
 }
