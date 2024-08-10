@@ -1,8 +1,10 @@
 package github.BeiGuaOvO;
 
+import github.BeiGuaOvO.Util.BlockBrokeManageUtil;
 import github.BeiGuaOvO.Util.DataManageUtil;
 import github.BeiGuaOvO.command.GetPlayTimeCommander;
 import github.BeiGuaOvO.command.TimeRankCommander;
+import github.BeiGuaOvO.event.PlayerBrokeEvent;
 import github.BeiGuaOvO.event.PlayerChatEvent;
 import github.BeiGuaOvO.event.PlayerJoinEvent;
 import github.BeiGuaOvO.event.PlayerLeftEvent;
@@ -18,6 +20,7 @@ import java.util.*;
 public final class PlayTimeRank extends JavaPlugin {
     public static PlayTimeRank instance;
     public static Map<Player, LocalDateTime> data;
+    public static Map<Player, Integer> broke;
     public static List<String> levels;
     @Override
     public void onEnable() {
@@ -25,15 +28,18 @@ public final class PlayTimeRank extends JavaPlugin {
         System.out.println("[PlayTimeRank]已加载！作者：北瓜sakura");
         instance=this;
         data=new HashMap<>();
+        broke=new HashMap<>();
         levels=new ArrayList<>();
         checkOnlinePlayers();
         saveDefaultConfig();
-        autoSave();
+        autoSaveTime();autoSaveBroke();
         initLevels();
         //new TimeExpansion().register();
         saveResource("data.yml",false);
+        saveResource("blockBroke.yml",false);
         getServer().getPluginManager().registerEvents(new PlayerJoinEvent(),this);
         getServer().getPluginManager().registerEvents(new PlayerLeftEvent(),this);
+        getServer().getPluginManager().registerEvents(new PlayerBrokeEvent(),this);
         if (getConfig().getBoolean("level-enable"))getServer().getPluginManager().registerEvents(new PlayerChatEvent(),this);
         getCommand("playtime").setExecutor(new GetPlayTimeCommander());
         getCommand("playrank").setExecutor(new TimeRankCommander());
@@ -50,10 +56,11 @@ public final class PlayTimeRank extends JavaPlugin {
 
     private void close(){
         data=null;
+        broke=null;
         levels=null;
     }
 
-    private void autoSave(){
+    private void autoSaveTime(){
         if (getConfig().getBoolean("auto-save")){
             new BukkitRunnable(){
                 @Override
@@ -72,11 +79,23 @@ public final class PlayTimeRank extends JavaPlugin {
         }
     }
 
+    private void autoSaveBroke(){
+        new BukkitRunnable(){
+            public void run(){
+                broke.forEach((k,v)->{
+                    BlockBrokeManageUtil.updateBrokeCount(k,v);
+                    broke.put(k,0);
+                });
+            }
+        }.runTaskTimerAsynchronously(this,0,getConfig().getLong("broke-auto-save-period"));
+    }
+
     private void checkOnlinePlayers(){
         Collection<? extends Player> playerCollection= Bukkit.getOnlinePlayers();
         playerCollection.forEach(k ->{
             LocalDateTime now = LocalDateTime.now();
             data.put(k,now);
+            broke.put(k,0);
         });
         if (getConfig().getBoolean("auto-save-debug-info")) System.out.println("[PlayTimeRank] 目前有"+playerCollection.size()+"名玩家在线，已加入缓存中");
     }
